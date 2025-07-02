@@ -1,0 +1,16 @@
+[0;1;32m●[0m cups.service - CUPS Scheduler
+     Loaded: loaded (]8;;file://sora-eios-300E5EV-300E4EV-270E5EV-270E4EV-2470EV-2470EE/usr/lib/systemd/system/cups.service/usr/lib/systemd/system/cups.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Wed 2025-07-02 00:05:07 PDT; 1min 11s ago
+TriggeredBy: [0;1;32m●[0m cups.socket
+             [0;1;32m●[0m cups.path
+       Docs: ]8;;man:cupsd(8)man:cupsd(8)]8;;
+   Main PID: 13882 (cupsd)
+     Status: "[0;1;36mScheduler is running...[0m"
+      Tasks: 1 (limit: 14109)
+     Memory: 2.3M (peak: 2.6M)
+        CPU: 32ms
+     CGroup: /system.slice/cups.service
+             └─[0;38;5;245m13882 /usr/sbin/cupsd -l[0m
+
+Jul 02 00:05:07 sora-eios-300E5EV-300E4EV-270E5EV-270E4EV-2470EV-2470EE systemd[1]: Starting cups.service - CUPS Scheduler...
+Jul 02 00:05:07 sora-eios-300E5EV-300E4EV-270E5EV-270E4EV-2470EV-2470EE systemd[1]: Started cups.service - CUPS Scheduler.
