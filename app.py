@@ -25,8 +25,29 @@ def sora_speaks():
 		print("-" * 40)
 
 def sora_thinks():
+   # 🧠 Load last context
+context_file = "context.json"
+if os.path.exists(context_file):
+    with open(context_file) as f:
+        context = json.load(f)
+else:
+    context = {"emotion": "", "memory_snippet": ""}
+
+# 🔄 Ask if Sora should reuse or reset
+reuse = input("🔁 Use last emotion/memory? (yes to reuse / no to reset): ").strip().lower()
+
+if reuse == "yes" and context["emotion"] and context["memory_snippet"]:
+    emotion = context["emotion"]
+    memory_snippet = context["memory_snippet"]
+    print(f"\n🧠 Reusing: Emotion → {emotion}, Memory → '{memory_snippet}'")
+else:
     emotion = input("💭 What emotion is present? (joy/grief/longing/etc): ").strip()
     memory_snippet = input("📎 What memory or phrase should Sora reflect on?: ").strip()
+
+    # 📝 Save new context
+    with open(context_file, "w") as f:
+        json.dump({"emotion": emotion, "memory_snippet": memory_snippet}, f, indent=4)
+
 
     # 🔄 Step 6: Identity Map Update
     identity_file = "identity_map.json"
