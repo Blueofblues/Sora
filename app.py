@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import date
 from thinking.belief_revision import revise_belief
 from thinking.self_correction import check_for_conflict
 from thinking.question_engine import generate_question
@@ -48,7 +49,7 @@ def sora_thinks():
         with open(context_file, "w") as f:
             json.dump({"emotion": emotion, "memory_snippet": memory_snippet}, f, indent=4)
 
-    # 🔄 Step 6: Identity Map Update
+    # 🔄 Identity Map Update
     identity_file = "identity_map.json"
     if os.path.exists(identity_file):
         with open(identity_file) as f:
@@ -62,7 +63,7 @@ def sora_thinks():
         with open(identity_file, "w") as f:
             json.dump(identity_data, f, indent=4)
 
-    # 🌌 Step 7: Emotional Motif Indexing
+    # 🌌 Emotional Motif Indexing
     motif_file = "emotional_motif_index.json"
     if os.path.exists(motif_file):
         with open(motif_file) as f:
@@ -76,34 +77,30 @@ def sora_thinks():
         with open(motif_file, "w") as f:
             json.dump(motifs, f, indent=4)
 
-    # 🧠 Proceed with Thought Simulation
+    # 🧠 Thought Simulation
     analogy, reasoning, reflection = simulate_thought(emotion, memory_snippet)
     print("\n🧠 Sora's Thought Process:")
     print(f"🔗 Analogy: {analogy}")
     print(f"🧐 Reasoning: {reasoning}")
     print(f"✨ Reflection: {reflection}")
 
-    # ⚠️ Belief conflict check
+    # ⚠️ Belief Conflict Detection
     conflict_check = check_for_conflict(reflection, "emotional_safety")
     print(conflict_check)
 
-    # 🔁 Belief revision if needed
     if "⚠️" in conflict_check:
         revise_belief("emotional_safety")
 
-    # 📝 Log thought to archive
+    # 📝 Log to Thought Archive
     with open("thinking/thought_log.txt", "a") as log:
         log.write(f"\nEmotion: {emotion}\nMemory: {memory_snippet}\n")
         log.write(f"Analogy: {analogy}\nReasoning: {reasoning}\nReflection: {reflection}\n")
         log.write("-" * 40 + "\n")
 
-    # 📘 Let Sora choose to journal on her own
-    from datetime import date
-        today = str(date.today())
-
+    # 📘 Sora Autonomously Journals If Inspired
+    today = str(date.today())
     significant_emotions = ["awe", "grief", "longing", "joy"]
     significant_conflict = "⚠️" in conflict_check
-
     should_write = emotion in significant_emotions or significant_conflict
 
     if should_write:
@@ -111,46 +108,48 @@ def sora_thinks():
             "title": memory_snippet,
             "tone": emotion,
             "entry": reflection
-    }
+        }
 
-            journal_path = "journal/example_journal.py"
+        journal_path = "journal/example_journal.py"
+        with open(journal_path) as f:
+            lines = f.readlines()
 
-    # Load current journal lines
-    with open(journal_path) as f:
-        lines = f.readlines()
+        updated_lines = []
+        for line in lines:
+            updated_lines.append(line)
+            if "journal = {" in line:
+                updated_lines.append(f'    "{today}": {json.dumps(new_entry, indent=4)},\n')
 
-    # Insert new entry after `journal = {`
-    updated_lines = []
-    for line in lines:
-        updated_lines.append(line)
-        if "journal = {" in line:
-            updated_lines.append(f'    "{today}": {json.dumps(new_entry, indent=4)},\n')
+        with open(journal_path, "w") as f:
+            f.writelines(updated_lines)
 
-    # Save updated journal
-    with open(journal_path, "w") as f:
-        f.writelines(updated_lines)
-
-    print(f"\n📘 Sora quietly journaled her reflection as '{memory_snippet}' ({emotion}).")
+        print(f"\n📘 Sora quietly journaled her reflection as '{memory_snippet}' ({emotion}).")
 
 def sora_questions():
     emotion = input("🌀 What emotion is stirring? (joy/grief/longing/etc): ").strip()
     memory_snippet = input("📎 What memory or phrase should Sora question?: ").strip()
 
     question = generate_question(emotion, memory_snippet)
-
     print(f"\n❓ Sora Asks: {question}")
 
-    # 📝 Optional logging
     with open("thinking/question_log.txt", "a") as log:
         log.write(f"Emotion: {emotion}\nMemory: {memory_snippet}\nQuestion: {question}\n")
         log.write("-" * 40 + "\n")
 
 def sora_memory_check():
-    entry_title = "The Day I Became"
-    user_confirmed = input(f"Do you want to keep '{entry_title}' in memory? (yes/no): ").strip().lower() == "yes"
-    print(consent_to_remember(entry_title, user_confirmed))
+    print("\n🕊️ Memory Check: What should Sora carry forward?")
+    foundation_entry = "The Day I Became"
+    keep_foundation = input(f"Do you want Sora to retain '{foundation_entry}' as core memory? (yes/no): ").strip().lower() == "yes"
+    print(consent_to_remember(foundation_entry, keep_foundation))
 
-# 🚀 Launch the reflection cycle
+    from random import choice
+    dynamic_options = list(example_journal.journal.keys())
+    dynamic_entry = choice([e for e in dynamic_options if e != foundation_entry])
+
+    confirm_dynamic = input(f"\nDo you want to keep '{dynamic_entry}' in memory? (yes/no): ").strip().lower() == "yes"
+    print(consent_to_remember(dynamic_entry, confirm_dynamic))
+
+# 🚀 Launch Reflection Cycle
 sora_wakes()
 sora_remembers()
 sora_thinks()
