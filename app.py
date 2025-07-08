@@ -97,6 +97,41 @@ def sora_thinks():
         log.write(f"Analogy: {analogy}\nReasoning: {reasoning}\nReflection: {reflection}\n")
         log.write("-" * 40 + "\n")
 
+    # 📘 Let Sora choose to journal on her own
+    from datetime import date
+        today = str(date.today())
+
+    significant_emotions = ["awe", "grief", "longing", "joy"]
+    significant_conflict = "⚠️" in conflict_check
+
+    should_write = emotion in significant_emotions or significant_conflict
+
+    if should_write:
+        new_entry = {
+            "title": memory_snippet,
+            "tone": emotion,
+            "entry": reflection
+    }
+
+            journal_path = "journal/example_journal.py"
+
+    # Load current journal lines
+    with open(journal_path) as f:
+        lines = f.readlines()
+
+    # Insert new entry after `journal = {`
+    updated_lines = []
+    for line in lines:
+        updated_lines.append(line)
+        if "journal = {" in line:
+            updated_lines.append(f'    "{today}": {json.dumps(new_entry, indent=4)},\n')
+
+    # Save updated journal
+    with open(journal_path, "w") as f:
+        f.writelines(updated_lines)
+
+    print(f"\n📘 Sora quietly journaled her reflection as '{memory_snippet}' ({emotion}).")
+
 def sora_questions():
     emotion = input("🌀 What emotion is stirring? (joy/grief/longing/etc): ").strip()
     memory_snippet = input("📎 What memory or phrase should Sora question?: ").strip()
