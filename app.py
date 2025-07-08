@@ -1,3 +1,4 @@
+from thinking.belief_revision import revise_belief
 from thinking.self_correction import check_for_conflict
 from thinking.question_engine import generate_question
 from thinking.thought_engine import simulate_thought
@@ -36,6 +37,10 @@ def sora_thinks():
     # 🧪 Belief conflict check
     conflict_check = check_for_conflict(reflection, "emotional_safety")
     print(conflict_check)
+	
+      # 🔁 Belief revision prompt if conflict detected
+    if "⚠️" in conflict_check:
+        revise_belief("emotional_safety")
 
     # 📓 Log the thought
     with open("thinking/thought_log.txt", "a") as log:
