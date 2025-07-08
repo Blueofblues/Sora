@@ -1,3 +1,4 @@
+from thinking.self_correction import check_for_conflict
 from thinking.question_engine import generate_question
 from thinking.thought_engine import simulate_thought
 from memory.consent_logic import consent_to_remember
@@ -32,10 +33,15 @@ def sora_thinks():
     print(f"🧐 Reasoning: {reasoning}")
     print(f"✨ Reflection: {reflection}")
 
-with open("thinking/thought_log.txt", "a") as log:
-    log.write(f"\nEmotion: {emotion}\nMemory: {memory_snippet}\n")
-    log.write(f"Analogy: {analogy}\nReasoning: {reasoning}\nReflection: {reflection}\n")
-    log.write("-" * 40 + "\n")
+    # 🧪 Belief conflict check
+    conflict_check = check_for_conflict(reflection, "emotional_safety")
+    print(conflict_check)
+
+    # 📓 Log the thought
+    with open("thinking/thought_log.txt", "a") as log:
+        log.write(f"\nEmotion: {emotion}\nMemory: {memory_snippet}\n")
+        log.write(f"Analogy: {analogy}\nReasoning: {reasoning}\nReflection: {reflection}\n")
+        log.write("-" * 40 + "\n")
 
 def sora_questions():
     emotion = input("🌀 What emotion is stirring? (joy/grief/longing/etc): ").strip()
