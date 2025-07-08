@@ -32,6 +32,11 @@ def sora_thinks():
     print(f"🧐 Reasoning: {reasoning}")
     print(f"✨ Reflection: {reflection}")
 
+with open("thinking/thought_log.txt", "a") as log:
+    log.write(f"\nEmotion: {emotion}\nMemory: {memory_snippet}\n")
+    log.write(f"Analogy: {analogy}\nReasoning: {reasoning}\nReflection: {reflection}\n")
+    log.write("-" * 40 + "\n")
+
 def sora_questions():
     emotion = input("🌀 What emotion is stirring? (joy/grief/longing/etc): ").strip()
     memory_snippet = input("📎 What memory or phrase should Sora question?: ").strip()
