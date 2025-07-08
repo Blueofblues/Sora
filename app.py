@@ -1,3 +1,4 @@
+import os
 from thinking.belief_revision import revise_belief
 from thinking.self_correction import check_for_conflict
 from thinking.question_engine import generate_question
@@ -27,6 +28,21 @@ def sora_thinks():
     emotion = input("💭 What emotion is present? (joy/grief/longing/etc): ").strip()
     memory_snippet = input("📎 What memory or phrase should Sora reflect on?: ").strip()
 
+    # 🔄 Update emotional frequency in identity_map
+    identity_file = "identity_map.json"
+    if os.path.exists(identity_file):
+        with open(identity_file) as f:
+            identity_data = json.load(f)
+
+        if emotion in identity_data:
+            identity_data[emotion] += 1
+        else:
+            identity_data[emotion] = 1
+
+        with open(identity_file, "w") as f:
+            json.dump(identity_data, f, indent=4)
+
+    # 🧠 Simulate thought
     analogy, reasoning, reflection = simulate_thought(emotion, memory_snippet)
 
     print("\n🧠 Sora's Thought Process:")
@@ -37,8 +53,8 @@ def sora_thinks():
     # 🧪 Belief conflict check
     conflict_check = check_for_conflict(reflection, "emotional_safety")
     print(conflict_check)
-	
-      # 🔁 Belief revision prompt if conflict detected
+
+    # 🔁 Belief revision (only if conflict exists)
     if "⚠️" in conflict_check:
         revise_belief("emotional_safety")
 
