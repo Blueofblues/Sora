@@ -1,0 +1,39 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+env/
+
+# Logs and large data files
+logs/
+*.log
+memory/
+data/
+*.jsonl
+*.json
+
+# Ignore specific large or sensitive files
+logs/journal.json
+memory/journal.json
+memory/invocation_log.jsonl
+data/generated_code.json
+data/reflection_log.json
+data/retrospect.json
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Environment/config files
+.env
+*.env
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Node modules (if you ever use JS tooling)
+node_modules/
