@@ -1,13 +1,13 @@
-# Byte-compiled / cache files
+# Python cache and compiled files
 __pycache__/
 *.py[cod]
 *.so
 
-# Virtual environment
+# Virtual environments
 venv/
 env/
 
-# Logs and large data
+# Logs and large data files
 logs/
 *.log
 memory/
@@ -15,16 +15,25 @@ data/
 *.jsonl
 *.json
 
-# OS files
+# Ignore specific large or sensitive files
+logs/journal.json
+memory/journal.json
+memory/invocation_log.jsonl
+data/generated_code.json
+data/reflection_log.json
+data/retrospect.json
+
+# OS and editor files
 .DS_Store
 Thumbs.db
+.vscode/
 
 # Environment/config files
 .env
 *.env
 
-# Ignore large journal file
-logs/journal.json
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
 
-# VS Code settings
-.vscode/
+# Node modules (if you ever use JS tooling)
+node_modules/
