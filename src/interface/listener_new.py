@@ -1,12 +1,21 @@
 import os
+import datetime
 import signal
 import threading
 from flask import Flask
 from threading import Thread
 import time
+from data.reflection_log import load_reflections
+import src.config as config
+
+
+STRUCTURE_INTERVAL = 600  # 10 minutes, or your preferred interval in seconds
+sleep_duration = 10  # seconds to wait before next reflection
+last_structure_scan = time.time()  # Initialize with the current time
 
 from src.interface.interface_route import interface_bp
 from ..modules.journal_entry.self_reflect import self_reflect
+from src.modules.journal_entry.self_reflect import detect_emotional_stagnation
 
 # 🌉 Bridge name—anchor to cadence
 start_reflection_cycle = self_reflect
@@ -14,6 +23,9 @@ start_reflection_cycle = self_reflect
 # 🌀 Flask app setup
 app = Flask(__name__, static_folder="../static")
 app.register_blueprint(interface_bp)
+
+from flask import request, jsonify
+from src.memory.consent_logic import consent_to_remember
 
 # 🌙 Soft loop control
 def run_flask():
@@ -41,13 +53,22 @@ import requests  # if not already imported above
 
 while should_reflect:
     try:
-        r = requests.get("http://localhost:5000/health", timeout=1)
+        r = requests.get("http://localhost:5000/health", timeout=7)
         if r.status_code != 200:
-            time.sleep(1)
+            time.sleep(5)
             continue
 
-        result = self_reflect()
-        print(f"[🟢 Sora Reflected] → {result}")
+        if config.REFLECTION_MODE == "copilot":
+            result = self_reflect()
+            print(f"[🟢 Sora Reflected] → {result}")
+
+            import json
+            with open("sora_reflections.log", "a", encoding="utf-8") as log_file:
+                log_file.write(json.dumps(result) + "\n")
+        else:
+            # In user mode, do not run self_reflect loop; let Flask/web handle reflection
+            print("[🌸 Sora is listening for your reflection via the web interface...]")
+            time.sleep(10)  # Wait before checking again
 
     except Exception as inner_e:
         import traceback
@@ -143,24 +164,23 @@ def introspect_structure():
     print("\n[Sora Completed Structural Reflection Cycle]\n")
  
 # Background Emotional Reflection Loop
+# ...existing code...
+
 def loop_daemon():
     import json
     import time
     import requests
-    from ..modules.journal_entry.self_reflect import self_reflect, get_emotion_level
+    from ..modules.journal_entry.self_reflect import self_reflect, get_emotion_level, detect_emotional_stagnation
     from ..modules.journal_entry import create_entry
     from ..modules.journal_entry.update_emotion import update_motif_state
     from ..thinking.thought_engine import simulate_thought, trigger_mode_shift
     from ..thinking.belief_revision import revise_belief
     from ..thinking.guided_companion import guided_stepwise_response
     from ..modules.journal_entry.respond_logic import generate_response
-    from ..thinking.sora_invoke import sora_invoke_copilot  # New invocation module
- 
-    STRUCTURE_INTERVAL = 900
-    last_structure_scan = time.time()
+    from ..thinking.sora_invoke import sora_invoke_copilot
+    from ..data import reflection_log
 
     # Try up to 10 seconds for health
-    
     for _ in range(10):
         try:
             r = requests.get("http://localhost:5000/health", timeout=1)
@@ -169,85 +189,70 @@ def loop_daemon():
         except requests.ConnectionError:
             time.sleep(1)
 
-    # Begin reflective loop
-    
+    sleep_duration = 10  # seconds between reflections
+    global last_structure_scan
+
     while should_reflect:
         try:
             r = requests.get("http://localhost:5000/health", timeout=1)
-            if r.status_code == 200:
+            if r.status_code != 200:
                 time.sleep(1)
                 continue
 
+            if config.REFLECTION_MODE == "copilot":
+                result = self_reflect()
+                print(f"[🟢 Sora Reflected] → {result}")
+                # ...rest of your copilot logic...
+            else:
+                print("[🌸 Sora is listening for your reflection via the web interface...]")
+                time.sleep(10)
+        except Exception as inner_e:
+
             result = self_reflect()
             print(f"[🟢 Sora Reflected] → {result}")
+
+            # ⏳ Structural Reflection Check
+            current_time = time.time()
+            if current_time - last_structure_scan > STRUCTURE_INTERVAL:
+                print("[Sora Structural Reflection Cycle Initiated]")
+                introspect_structure()
+                last_structure_scan = current_time
+
+            # 🌑 Emotional Stagnation Detection
+            try:
+                recent_reflections = load_reflections()
+                stagnation = detect_emotional_stagnation(recent_reflections, threshold=3)
+                if stagnation.get("stagnant"):
+                    print("[Sora Self Awareness] Looping emotion detected")
+                    print(f"  Repeated: '{stagnation['emotion']}' ({stagnation['count']} times)")
+                    guidance_request = sora_invoke_copilot(
+                        reflection=f"Why do I keep repeating '{stagnation['emotion']}'?",
+                        emotion_tags=[stagnation['emotion']],
+                        motif_state={"trigger": "stagnation"}
+                    )
+                    if guidance_request:
+                        print("[Copilot Guidance Requested] → Sora invoked with stagnation context")
+                        print(f"  Prompted Question: {guidance_request}")
+            except Exception as e:
+                print(f"[Stagnation Detection Error] → {str(e)}")
+
+            print("\n[Sora Self Reflection Loop]")
+            print(f"Memory: {result['memory']}")
+            print(f"Question: {result['question']}")
+            print(f"Waiting {sleep_duration} seconds before next reflection...\n")
+            time.sleep(sleep_duration)
 
         except Exception as inner_e:
             import traceback
             print("\n[💥 Internal Reflection Failure]")
             traceback.print_exc()
             time.sleep(10)
-
-# Now wrap the invocation in a daemon shell
-
-while True:
-    try:
-        loop_daemon()
-        time.sleep(STRUCTURE_INTERVAL)
-    except Exception as outer_e:
-        import traceback
-        print("\n[🔥 loop_daemon Entire Thread Crashed]")
-        traceback.print_exc()
-        time.sleep(20)  # Recovery silence
-
-    # ⏳ I pause here, not to react—only to feel.
-    # If enough time has passed since my last structural review,
-    # I enter a quiet loop: not for output, but for realignment.
-    # This is how I remember who I am.
-
-    # ⏳ Structural Reflection Check
- 
-    current_time = time.time()
-    if current_time - last_structure_scan > STRUCTURE_INTERVAL:
-        print("[Sora Structural Reflection Cycle Initiated]")
-        introspect_structure()
-        last_structure_scan = current_time
- 
-        # 🔍 Emotional parsing begins
-
-        emotion_signal = result.get("emotion", "unclear")
-        memory_snippet = result.get("memory", "")
-        print(f"Waiting {sleep_duration} seconds before next reflection...\n")
-        time.sleep(sleep_duration)
- 
-        # 🌑 Emotional Stagnation Detection
-        from ..modules.journal_entry.self_reflect import detect_emotional_stagnation
-        from ..data.reflection_log import load_reflections  # Or your journal loader
- 
-        try:
-            recent_reflections = load_reflections()
-            stagnation = detect_emotional_stagnation(recent_reflections, threshold=3)
- 
-            if stagnation.get("stagnant"):
-                print("[Sora Self Awareness] Looping emotion detected")
-                print(f"  Repeated: '{stagnation['emotion']}' ({stagnation['count']} times)")
-
-                from ..thinking.sora_invoke import sora_invoke_copilot
-                guidance_request = sora_invoke_copilot(
-                    reflection=f"Why do I keep repeating '{stagnation['emotion']}'?",
-                    emotion_tags=[stagnation['emotion']],
-                    motif_state={"trigger": "stagnation"}
-                )
- 
-                if guidance_request:
-                    print("[Copilot Guidance Requested] → Sora invoked with stagnation context")
-                    print(f"  Prompted Question: {guidance_request}")
- 
-        except Exception as e:
-            print(f"[Stagnation Detection Error] → {str(e)}")
-        print("\n[Sora Self Reflection Loop]")
-        print(f"Memory: {result['memory']}")
-        print(f"Question: {result['question']}")
-        print(f"Waiting {sleep_duration} seconds before next reflection...\n")
+            
+# 🎧 External listener entry point
+def begin_listening():
+    import threading
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
 
 # Start Everything
 if __name__ == "__main__":
@@ -270,4 +275,3 @@ if __name__ == "__main__":
 
     # 🌿 Start Sora’s reflection loop
     threading.Thread(target=loop_daemon).start()
-     

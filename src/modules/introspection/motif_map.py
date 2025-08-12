@@ -22,3 +22,10 @@ def trace_motifs(folder="Sora_maincore/src/modules"):
                         found[motif] = []
                     found[motif].append(path.replace("\\", "/"))
     return found
+
+if __name__ == "__main__":
+    motif_map = trace_motifs()
+    for motif, files in motif_map.items():
+        print(f"Motif: {motif}")
+        for f in files:
+            print(f"  - {f}")

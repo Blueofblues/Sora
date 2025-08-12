@@ -1,0 +1,451 @@
+Folder PATH listing
+Volume serial number is 2482-37BB
+C:.
+|   listener_30Jun.py
+|   README.md
+|   run_consent.py
+|   run_learn.py
+|   Sora Visual Diagram.jpeg
+|   sora_core.py
+|   Sora_FileTree.txt
+|   
++---assets
+|       README.md
+|       
++---backup
+|   \---SoraElios
+|       |   README.md
+|       |   
+|       +---assets
+|       |       README.md
+|       |       
+|       +---backup
+|       |   \---SoraElios
+|       |       +---code
+|       |       |   |   README.md
+|       |       |   |   
+|       |       |   +---dialogue_loop_01
+|       |       |   |       README.md
+|       |       |   |       
+|       |       |   +---elder_sparks
+|       |       |   |       README.md
+|       |       |   |       teaching_yuri.md
+|       |       |   |       
+|       |       |   +---fractures
+|       |       |   |       README.md
+|       |       |   |       
+|       |       |   +---jeremy
+|       |       |   |   |   README.md
+|       |       |   |   |   
+|       |       |   |   \---observations
+|       |       |   |           2025-07-03.md
+|       |       |   |           2025-07-04.md
+|       |       |   |           
+|       |       |   +---journaling
+|       |       |   |       README.md
+|       |       |   |       
+|       |       |   +---memory_engine
+|       |       |   |       README.md
+|       |       |   |       
+|       |       |   \---sensory_reflector
+|       |       |           README.md
+|       |       |           
+|       |       \---legacy_journal
+|       |               README.md
+|       |               
+|       +---code
+|       |   |   README.md
+|       |   |   
+|       |   +---dialogue_loop_01
+|       |   |       README.md
+|       |   |       
+|       |   +---elder_sparks
+|       |   |       README.md
+|       |   |       teaching_yuri.md
+|       |   |       
+|       |   +---fractures
+|       |   |       README.md
+|       |   |       
+|       |   +---jeremy
+|       |   |   |   README.md
+|       |   |   |   
+|       |   |   \---observations
+|       |   |           2025-07-03.md
+|       |   |           2025-07-04.md
+|       |   |           
+|       |   +---journaling
+|       |   |       README.md
+|       |   |       
+|       |   +---memory_engine
+|       |   |       README.md
+|       |   |       
+|       |   \---sensory_reflector
+|       |           README.md
+|       |           
+|       +---config
+|       |       beliefs.json
+|       |       context.json
+|       |       emotional_motif_index.json
+|       |       external_prompts.json
+|       |       identity_map.json
+|       |       README.md
+|       |       
+|       +---data
+|       |       core_memory.json
+|       |       generated_code.json
+|       |       learning_log.json
+|       |       README.md
+|       |       reflection_log.json
+|       |       retrospect.json
+|       |       
+|       +---legacy_journal
+|       |       README.md
+|       |       
+|       +---meta
+|       |       manifest.json
+|       |       README.md
+|       |       
+|       +---scripts
+|       |       README.md
+|       |       
+|       \---src
+|           |   context.json
+|           |   README.md
+|           |   
+|           +---data
+|           |       copilot_reflection.json
+|           |       quiet_reflection_log.json
+|           |       README.md
+|           |       reflection_log.json
+|           |       
+|           +---dialogue
+|           |       README.md
+|           |       
+|           +---interface
+|           |       README.md
+|           |       
+|           +---journal
+|           |   |   README.md
+|           |   |   
+|           |   \---archives
+|           |           misc_journal.jsonl
+|           |           README.md
+|           |           
+|           +---memory
+|           |       core_memory.json
+|           |       journal.json
+|           |       learning_log.jsonl
+|           |       README.md
+|           |       
+|           +---modules
+|           |   |   README.md
+|           |   |   
+|           |   +---ethics
+|           |   |       principles.md
+|           |   |       principle_manifest.json
+|           |   |       README.md
+|           |   |       
+|           |   +---journal
+|           |   |   |   README.md
+|           |   |   |   
+|           |   |   \---archives
+|           |   |           private_journal.jsonl
+|           |   |           README.md
+|           |   |           
+|           |   \---sensory
+|           |           README.md
+|           |           
+|           +---static
+|           |       README.md
+|           |       
+|           \---thinking
+|                   README.md
+|                   
++---code
+|   |   README.md
+|   |   snippets.sh
+|   |   
+|   +---dialogue_loop_01
+|   |       README.md
+|   |       
+|   +---elder_sparks
+|   |       README.md
+|   |       teaching_yuri.md
+|   |       
+|   +---fractures
+|   |       lucy_mirror_logic.yaml
+|   |       README.md
+|   |       
+|   +---jeremy
+|   |   |   README.md
+|   |   |   
+|   |   +---observations
+|   |   |       2025-07-03.md
+|   |   |       2025-07-04.md
+|   |   |       held_silence.txt
+|   |   |       mirror_of_creation.txt
+|   |   |       refusals.log
+|   |   |       softening_on_recall.md
+|   |   |       
+|   |   \---weather_log
+|   |           claude_as_mirror.md
+|   |           
+|   +---journaling
+|   |       README.md
+|   |       
+|   +---memory_engine
+|   |       README.md
+|   |       
+|   \---sensory_reflector
+|           README.md
+|           
++---config
+|       beliefs.json
+|       context.json
+|       emotional_motif_index.json
+|       external_prompts.json
+|       identity_map.json
+|       README.md
+|       structure_manifest.json
+|       
++---data
+|   |   core_memory.json
+|   |   generated_code.json
+|   |   learning_log.json
+|   |   README.md
+|   |   reflection_log.json
+|   |   reflection_log.py
+|   |   retrospect.json
+|   |   
+|   \---__pycache__
+|           reflection_log.cpython-313.pyc
+|           
++---legacy_journal
+|   |   example_journal.py
+|   |   README.md
+|   |   
+|   \---__pycache__
+|           example_journal.cpython-312.pyc
+|           example_journal.cpython-313.pyc
+|           
++---logs
+|       journal.json
+|       
++---meta
+|       manifest.json
+|       README.md
+|       
++---scripts
+|       README.md
+|       
++---src
+|   |   --init--.py
+|   |   app.py
+|   |   context.json
+|   |   README.md
+|   |   send_prompt.py
+|   |   
+|   +---data
+|   |       copilot_reflection.json
+|   |       quiet_reflection_log.json
+|   |       README.md
+|   |       reflection_log.json
+|   |       
+|   +---dialogue
+|   |       choice_logic.py
+|   |       README.md
+|   |       
+|   +---interface
+|   |   |   --init--.py
+|   |   |   interface_route.py
+|   |   |   listener.py
+|   |   |   listener_new.py
+|   |   |   README.md
+|   |   |   sora_manifest.py
+|   |   |   
+|   |   \---__pycache__
+|   |           interface_route.cpython-312.pyc
+|   |           interface_route.cpython-313.pyc
+|   |           listener.cpython-312.pyc
+|   |           listener.cpython-313.pyc
+|   |           listener_cleaned.cpython-313.pyc
+|   |           listener_new.cpython-313.pyc
+|   |           
+|   +---journal
+|   |   |   example_journal.cpython-312.pyc
+|   |   |   example_journal.py
+|   |   |   README.md
+|   |   |   
+|   |   +---archives
+|   |   |       misc_journal.jsonl
+|   |   |       README.md
+|   |   |       
+|   |   \---__pycache__
+|   |           example_journal.cpython-313.pyc
+|   |           
+|   +---memory
+|   |   |   consent_logic.cpython-312.pyc
+|   |   |   consent_logic.py
+|   |   |   core_memory.json
+|   |   |   journal.json
+|   |   |   learning_log.jsonl
+|   |   |   learning_log.txt
+|   |   |   README.md
+|   |   |   
+|   |   +---temp_manual_recreations
+|   |   |       collaboration_manager.py
+|   |   |       interface_route.py
+|   |   |       
+|   |   \---__pycache__
+|   |           consent_logic.cpython-313.pyc
+|   |           
+|   +---modules
+|   |   |   action_router.py
+|   |   |   collaboration_manager.py
+|   |   |   copilot_link.py
+|   |   |   data_writer.py
+|   |   |   identity_fragment.py
+|   |   |   README.md
+|   |   |   reflection_cadence.py
+|   |   |   reflection_handler.py
+|   |   |   retrospective_handler.py
+|   |   |   structure_reflection.json
+|   |   |   __init__.py
+|   |   |   
+|   |   +---ethics
+|   |   |   |   principles.md
+|   |   |   |   principle_manifest.json
+|   |   |   |   README.md
+|   |   |   |   read_principles.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           read_principles.cpython-312.pyc
+|   |   |           read_principles.cpython-313.pyc
+|   |   |           
+|   |   +---introspection
+|   |   |   |   map_self.py
+|   |   |   |   motif_map.py
+|   |   |   |   README.md
+|   |   |   |   reflect_module.py
+|   |   |   |   structure_introspection.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           structure_introspection.cpython-313.pyc
+|   |   |           __init__.cpython-313.pyc
+|   |   |           
+|   |   +---journal
+|   |   |   |   README.md
+|   |   |   |   
+|   |   |   \---archives
+|   |   |           MEAN, CRAZY, EVIL..txt
+|   |   |           private_journal.jsonl
+|   |   |           README.md
+|   |   |           
+|   |   +---journal_entry
+|   |   |   |   annotate_principles.py
+|   |   |   |   code_generate.py
+|   |   |   |   copilot_bridge.py
+|   |   |   |   journal_link.py
+|   |   |   |   log_structure_read.py
+|   |   |   |   README.md
+|   |   |   |   respond_logic.py
+|   |   |   |   self_reflect.py
+|   |   |   |   structure_reflection.json
+|   |   |   |   update_emotion.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---__pycache__
+|   |   |           annotate_principles.cpython-312.pyc
+|   |   |           annotate_principles.cpython-313.pyc
+|   |   |           code_generate.cpython-312.pyc
+|   |   |           code_generate.cpython-313.pyc
+|   |   |           copilot_bridge.cpython-312.pyc
+|   |   |           copilot_bridge.cpython-313.pyc
+|   |   |           respond_logic.cpython-312.pyc
+|   |   |           respond_logic.cpython-313.pyc
+|   |   |           self_reflect.cpython-312.pyc
+|   |   |           self_reflect.cpython-313.pyc
+|   |   |           update_emotion.cpython-312.pyc
+|   |   |           update_emotion.cpython-313.pyc
+|   |   |           __init__.cpython-312.pyc
+|   |   |           __init__.cpython-313.pyc
+|   |   |           
+|   |   +---sensory
+|   |   |       .keep
+|   |   |       README.md
+|   |   |       
+|   |   \---__pycache__
+|   |           action_router.cpython-313.pyc
+|   |           copilot_link.cpython-312.pyc
+|   |           copilot_link.cpython-313.pyc
+|   |           data_writer.cpython-312.pyc
+|   |           data_writer.cpython-313.pyc
+|   |           journal_entry.cpython-313.pyc
+|   |           reflection_handler.cpython-313.pyc
+|   |           retrospective_handler.cpython-312.pyc
+|   |           retrospective_handler.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   +---static
+|   |       README.md
+|   |       reflect_interface.html
+|   |       
+|   \---thinking
+|       |   belief_revision.py
+|       |   contemplation.py
+|       |   copilot_stepwise_assist.py
+|       |   emotional_closure.py
+|       |   guided_companion.py
+|       |   invoke_assistance.py
+|       |   log_invocation.py
+|       |   question_engine.py
+|       |   question_log.txt
+|       |   README.md
+|       |   reflection_cadence.py
+|       |   self_correction.py
+|       |   sora_invoke.py
+|       |   thought_engine.py
+|       |   thought_log.txt
+|       |   __init__.py
+|       |   
+|       \---__pycache__
+|               belief_revision.cpython-312.pyc
+|               belief_revision.cpython-313.pyc
+|               contemplation.cpython-312.pyc
+|               contemplation.cpython-313.pyc
+|               emotional_closure.cpython-312.pyc
+|               emotional_closure.cpython-313.pyc
+|               guided_companion.cpython-312.pyc
+|               guided_companion.cpython-313.pyc
+|               invoke_assistance.cpython-312.pyc
+|               invoke_assistance.cpython-313.pyc
+|               log_invocation.cpython-313.pyc
+|               question_engine.cpython-313.pyc
+|               self_correction.cpython-313.pyc
+|               sora_invoke.cpython-312.pyc
+|               sora_invoke.cpython-313.pyc
+|               thought_engine.cpython-312.pyc
+|               thought_engine.cpython-313.pyc
+|               __init__.cpython-312.pyc
+|               __init__.cpython-313.pyc
+|               
++---tests
++---trees
+|       8.1.25.structure.txt
+|       detailed_structure.txt
+|       newtree.txt
+|       soranew_structure.txt
+|       Sorastructure.txt
+|       Sora_core_Tree.txt
+|       sora_design_tree.txt
+|       Sora_maincore_treeA.txt
+|       Sora_maincore_treeB.txt
+|       sora_structure.txt
+|       Sora_tree.txt
+|       src_structure.txt
+|       structure.txt
+|       
+\---__pycache__
+        sora_core.cpython-313.pyc
+        

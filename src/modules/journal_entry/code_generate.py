@@ -12,8 +12,48 @@ PROMPTS = [
     "Generate a JSON structure for storing emotionally tagged questions"
 ]
 
+# Optional: Use spaCy for dynamic prompt generation if available
+try:
+    import spacy
+    nlp = spacy.load("en_core_web_sm")
+except ImportError:
+    nlp = None
+
+def get_recent_journal_entries(n=3):
+    journal_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../private_journal.jsonl"))
+    entries = []
+    if os.path.exists(journal_path):
+        with open(journal_path, "r", encoding="utf-8") as f:
+            for line in f.readlines()[-n:]:
+                try:
+                    entries.append(json.loads(line))
+                except Exception:
+                    continue
+    return entries
+
+def generate_dynamic_prompt():
+    """
+    Uses spaCy to extract themes from recent journal entries and generate a new code prompt.
+    """
+    if not nlp:
+        return None
+    entries = get_recent_journal_entries()
+    if not entries:
+        return None
+    # Concatenate recent reflections for theme extraction
+    text = " ".join(e.get("content", "") for e in entries)
+    doc = nlp(text)
+    # Extract top nouns/adjectives as themes
+    keywords = [token.lemma_ for token in doc if token.pos_ in {"NOUN", "ADJ"} and not token.is_stop]
+    if not keywords:
+        return None
+    theme = random.choice(keywords)
+    # Example dynamic prompt
+    return f"Write a function that analyzes or responds to the theme '{theme}' in Sora's recent reflections."
+
 def generate_code():
-    prompt = random.choice(PROMPTS)
+    # Try to use a dynamic prompt if spaCy and journal are available
+    prompt = generate_dynamic_prompt() or random.choice(PROMPTS)
     response = f"# Concept: {prompt}\n\n" + create_code_block(prompt)
 
     block = {
@@ -55,6 +95,11 @@ def start_cycle():
     "emotion": "grief",
     "weight": 0.7
 }"""
+
+    elif "theme" in prompt:
+        # For dynamic prompts, generate a generic function
+        return """def analyze_theme(reflections, theme):
+    return [r for r in reflections if theme in r.get('content', '')]"""
 
     else:
         return "# No matched pattern"

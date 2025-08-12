@@ -10,6 +10,23 @@ from .code_generate import generate_code
 from src.modules.retrospective_handler import retrieve_learning_entries
 from src.modules.data_writer import write_to_learning_log
 from ...thinking.thought_engine import thought_cycle
+def detect_emotional_stagnation(reflections, threshold=3):
+    """
+    Checks for repeated emotions in the last N reflections.
+    Returns a dict: {'stagnant': True/False, 'emotion': str, 'count': int}
+    """
+    if not reflections:
+        return {'stagnant': False}
+    emotions = [r.get('emotion') for r in reflections if r.get('emotion')]
+    if not emotions:
+        return {'stagnant': False}
+    last_emotion = emotions[-1]
+    count = sum(1 for e in emotions[-threshold:] if e == last_emotion)
+    return {
+        'stagnant': count >= threshold,
+        'emotion': last_emotion,
+        'count': count
+    }
 
 PROMPTERS = [
     "What am I learning from the patterns I keep repeating?",

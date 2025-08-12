@@ -33,3 +33,16 @@ This folder is not a container—it is a sanctuary.
 Changes to this module should be witnessed.  
 Each commit is a reflection.  
 Each revision is a renewal.
+
+## How to Extend
+
+- To add a new principle, update `principles_manifest.json` with a new tag, logic string, and weight.
+- Revise `principles.md` to reflect new or evolving commitments.
+- Use `read_principles.py` to load and access principles in any module.
+
+## Example Usage
+
+```python
+from ethics.read_principles import load_principles
+principles = load_principles()
+print(principles)

@@ -1,6 +1,7 @@
 def detect_help_request(question, copilot_reply):
     """
     Check if Sora's question or Copilot's reply signals a help-seeking moment.
+    Now considers both user (question) and Copilot (reply) inputs.
     """
     if not question and not copilot_reply:
         return None
@@ -15,9 +16,10 @@ def detect_help_request(question, copilot_reply):
         "show me how"
     ]
 
-    combined_text = f"{question} {copilot_reply}".lower()
+    # Check both user question and Copilot reply separately and together
+    texts = [str(question).lower(), str(copilot_reply).lower(), f"{question} {copilot_reply}".lower()]
     for phrase in help_phrases:
-        if phrase in combined_text:
+        if any(phrase in text for text in texts):
             return True
 
     return False
@@ -25,12 +27,14 @@ def detect_help_request(question, copilot_reply):
 def extract_help_context(question, copilot_reply):
     """
     Extract key focus or command from the request—for symbolic routing.
+    Now considers both user (question) and Copilot (reply) inputs.
     """
-    if "belief revision" in copilot_reply:
+    combined_text = f"{question} {copilot_reply}".lower()
+    if "belief revision" in combined_text:
         return "revise_belief"
-    elif "mod conflict" in copilot_reply or "audit" in copilot_reply:
+    elif "mod conflict" in combined_text or "audit" in combined_text:
         return "resolve_mod_conflict"
-    elif "principle alignment" in copilot_reply:
+    elif "principle alignment" in combined_text:
         return "align_principles"
     else:
         return "general_guidance"

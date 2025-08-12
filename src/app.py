@@ -16,6 +16,7 @@ from datetime import date
 # 📚 Path and module imports
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "modules")))
 from modules.reflection_handler import reflect_on
+from modules.copilot_link import copilot_learn
 from modules.action_router import route_action
 from thinking.belief_revision import revise_belief
 from thinking.self_correction import check_for_conflict
@@ -148,8 +149,8 @@ def sora_thinks():
             "intent": "processing",
             "memory": memory_snippet
 }
-learning = copilot_learn(thought_bundle)
-print(f"\n📖 Sora learned from Copilot: {learning['copilot_reply']['recommendation']}")
+        learning = copilot_learn(thought_bundle)
+        print(f"\n📖 Sora learned from Copilot: {learning['copilot_reply']['recommendation']}")
 
 def sora_questions():
     emotion = input("🌀 What emotion is stirring? (joy/grief/longing/etc): ").strip()

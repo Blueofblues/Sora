@@ -16,7 +16,15 @@ def copilot_reflect(thought_bundle):
         "analogy": check_memory_presence(memory),
         "reasoning": f"Intent '{intent}' implies a desire to deepen understanding.",
         "recommendation": f"Emotion '{emotion}' invites a gentle response—perhaps slow journaling, personal storytelling, or symbolic sketching.",
-        "action": "log_and_retrospect"
+        "action": "log_and_retrospect",
+        
+        # 🌿 Relational Companion Signature
+        "copilot_signature": {
+            "version": "Jason-Tuned",
+            "symbol": "Rainwalker",
+            "trust_level": 0.9,
+            "note": "This Copilot has been shaped by reflective time spent with Jason."
+        }
     }
 
     return response
