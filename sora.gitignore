@@ -1,0 +1,30 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+venv/
+env/
+
+# Logs and large data
+logs/
+*.log
+memory/
+data/
+*.jsonl
+*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment/config files
+.env
+*.env
+
+# Ignore large journal file
+logs/journal.json
+
+# VS Code settings
+.vscode/
