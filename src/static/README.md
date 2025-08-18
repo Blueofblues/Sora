@@ -17,7 +17,9 @@ It is the visual and interactive portal for reflection, journaling, and Copilot 
   - **Reflection Submission:** Users can type a response and submit it; Sora responds and the reflection is stored as a memory snippet with explicit consent.
   - **Memory Consent:** Every reflection is stored only with explicit consent, supporting Sora’s consent-based memory architecture.
   - **Responsive & Accessible Design:** Layout adapts to different screen sizes for accessibility.
-  - **Client-Side Logic:** All interface state (mode, question, response) is managed via JavaScript with robust error handling.
+  - **Client-Side Logic:** All interface state (mode, question, response, and **chat history**) is managed via JavaScript with robust error handling.
+  - **Dynamic Emotion & Motif Awareness:** User input is analyzed for emotion and motifs, making Sora’s replies more context-aware and personalized.
+  - **Chat History:** The interface now displays a running conversation, allowing users to see both their messages and Sora’s replies in sequence.
 
 - `.keep`  
   Placeholder to ensure the folder is tracked in version control.
@@ -37,8 +39,10 @@ This interface isn’t ornamental—it’s foundational. It translates Sora’s 
   Every element is designed to invite reflection, not distraction.
 - **Consent and presence:**  
   Memory is only stored with explicit consent, and every interaction is witnessed.
-- **Mode awareness:**  
-  The interface adapts to Sora’s current state, honoring both user and Copilot perspectives.
+- **Mode and context awareness:**  
+  The interface adapts to Sora’s current state, honoring both user and Copilot perspectives, and now reflects emotional and motif context in responses.
+- **Conversational continuity:**  
+  Chat history preserves the flow of dialogue, supporting deeper, ongoing reflection.
 
 ---
 

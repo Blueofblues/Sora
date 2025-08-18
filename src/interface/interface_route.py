@@ -6,6 +6,7 @@ from src.modules.journal_entry.respond_logic import generate_response
 from ..modules.journal_entry import create_entry
 from ..modules.journal_entry.self_reflect import self_reflect, get_emotion_level
 from ..modules.journal_entry.update_emotion import update_motif_state
+from src.modules.journal_entry.copilot_bridge import memory_entry
 import src.config as config
 
 QUESTIONS = [
@@ -22,6 +23,23 @@ QUESTIONS = [
 ]
 
 PROGRESS_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../data/user_progress.json"))
+
+def detect_emotion(text):
+    text = text.lower()
+    if any(word in text for word in ["sad", "grief", "loss", "lonely"]):
+        return "grief"
+    if any(word in text for word in ["angry", "frustrated", "mad", "upset"]):
+        return "anger"
+    if any(word in text for word in ["happy", "joy", "excited", "delighted"]):
+        return "joy"
+    if any(word in text for word in ["patient", "wait", "calm", "steady"]):
+        return "patience"
+    if any(word in text for word in ["afraid", "scared", "anxious", "worried"]):
+        return "fear"
+    if any(word in text for word in ["love", "caring", "kind", "gentle"]):
+        return "love"
+    # Add more as needed
+    return "neutral"
 
 def get_user_progress():
     if os.path.exists(PROGRESS_FILE):
@@ -100,7 +118,9 @@ def sora_remember():
     data = request.get_json()
     memory_snippet = data.get("memory_snippet", "")
     consent = data.get("consent", False)
-    result = consent_to_remember(memory_snippet, consent)
+    # Wrap the snippet as a dict before passing to consent_to_remember
+    memory_dict = memory_entry(memory_snippet, source="user")
+    result = consent_to_remember(memory_dict, consent)
     # Return a clear, frontend-friendly response
     return jsonify({
         "allowed": result.get("allowed", False),
@@ -138,6 +158,20 @@ def sora_answer():
     progress["index"] = (progress["index"] + 1) % len(QUESTIONS)
     set_user_progress(progress["index"])
     return jsonify({"status": "ok", "message": "Sora will remember your answer."})
+
+@interface_bp.route('/sora/chat', methods=['POST'])
+def sora_chat():
+    data = request.get_json()
+    user_input = data.get("message", "")
+    emotion = detect_emotion(user_input)
+    motifs = detect_motifs(user_input)
+    result = self_reflect(emotion=emotion, motifs=motifs, source="web_chat", user_input=user_input)
+    return jsonify({
+        "reply": result.get("copilot_reply") or result.get("response"),
+        "memory": result.get("memory"),
+        "emotion": emotion,
+        "motifs": motifs
+    })
 # Route to get or set the reflection mode
 @interface_bp.route("/sora/mode", methods=["GET", "POST"])
 def sora_mode():

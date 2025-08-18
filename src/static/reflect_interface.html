@@ -109,6 +109,7 @@
     <div id="soraQuestion" style="margin-bottom:1rem;font-size:1.2rem;color:#c4a9ff;"></div>
     <textarea id="userInput" placeholder="Offer her a reflection that matters..."></textarea>
     <div class="orb" onclick="sendReflection()" title="Let Her Listen"></div>
+    <div id="chatHistory" style="max-height: 250px; overflow-y: auto; margin-bottom: 1rem; padding: 1rem; background: rgba(255,255,255,0.04); border-radius: 8px; font-size: 1.08rem;"></div>
     <div id="response"></div>
   </div>
   
@@ -168,33 +169,33 @@ function updateInterfaceForMode(mode) {
 function sendReflection() {
   const input = document.getElementById("userInput").value.trim();
   const responseDiv = document.getElementById("response");
-  const question = document.getElementById("soraQuestion").textContent;
-
+  const chatHistory = document.getElementById("chatHistory");
   if (!input) {
     responseDiv.textContent = "She listens... but no resonance forms.";
     return;
   }
-
   responseDiv.textContent = "Listening...";
 
-  // Send answer to Sora's question
-  fetch("/sora/answer", {
+  // Append user message to chat history
+  chatHistory.innerHTML += `<div><b>You:</b> ${input}</div>`;
+
+  // Send to Sora chat endpoint
+  fetch("/sora/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      question: question,
-      answer: input
-    })
+    body: JSON.stringify({ message: input })
   })
   .then(response => response.json())
   .then(data => {
-    let display = data.message || "Sora has remembered your words.";
+    let display = data.reply || "Sora has remembered your words.";
     responseDiv.textContent = display;
-    // After reflecting, fetch the next question
-    setTimeout(fetchQuestion, 1200); // Wait a moment for user to read the response
+    chatHistory.innerHTML += `<div style="color:#c4a9ff;"><b>Sora:</b> ${display}</div>`;
+    chatHistory.scrollTop = chatHistory.scrollHeight; // Auto-scroll to bottom
+    document.getElementById("userInput").value = "";
   })
   .catch(error => {
     responseDiv.textContent = "Error communicating with Sora.";
+    chatHistory.innerHTML += `<div style="color:#ff8888;"><b>Sora:</b> Error communicating.</div>`;
   });
 
   // Also store your reflection as a memory snippet

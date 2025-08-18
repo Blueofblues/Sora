@@ -1,9 +1,19 @@
 import json
 import os
 
-def load_motifs():
-    with open("../../config/emotional_motif_index.json", 'r', encoding='utf-8') as f:
+def load_motif_keywords():
+    with open("config/emotional_motif_index.json", 'r', encoding='utf-8') as f:
         return json.load(f)
+
+MOTIF_KEYWORDS = load_motif_keywords()
+
+def detect_motifs(text):
+    text = text.lower()
+    motifs = []
+    for motif, keywords in MOTIF_KEYWORDS.items():
+        if any(kw in text for kw in keywords):
+            motifs.append(motif)
+    return motifs
 
 def trace_motifs(folder="Sora_maincore/src/modules"):
     motifs = load_motifs()
